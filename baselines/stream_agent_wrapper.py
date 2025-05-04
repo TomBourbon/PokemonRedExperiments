@@ -4,6 +4,7 @@ import json
 
 import gymnasium as gym
 
+from red_gym_env import RedGymEnv
 X_POS_ADDRESS, Y_POS_ADDRESS = 0xD362, 0xD361
 MAP_N_ADDRESS = 0xD35E
 
@@ -69,3 +70,31 @@ class StreamWrapper(gym.Wrapper):
             self.websocket = await websockets.connect(self.ws_address)
         except:
             self.websocket = None
+
+
+# # Exemple d'utilisation
+# if __name__ == "__main__":
+#     # Créez votre environnement gym
+#     env = gym.make('RedGymEnv')  # Remplacez par votre environnement souhaité
+
+#     # Enveloppez l'environnement avec StreamWrapper
+#     env = StreamWrapper(
+#         env,
+#         stream_metadata={
+#             "user": "super-cool-user",  # Choisissez votre propre nom d'utilisateur
+#             "env_id": "CartPole-v1",    # Identifiant de l'environnement
+#             "color": "#0033ff",         # Choisissez votre couleur
+#             "extra": "Texte supplémentaire", # Tout texte supplémentaire que vous souhaitez afficher
+#             "sprite_id": 0,             # Choisissez votre sprite de personnage, de 0 à 50 (optionnel)
+#         }
+#     )
+
+#     # Maintenant, vous pouvez utiliser l'environnement enveloppé
+#     observation = env.reset()
+#     for _ in range(1000):
+#         env.render()
+#         action = env.action_space.sample()  # Remplacez par l'action de votre agent
+#         observation, reward, done, info = env.step(action)
+#         if done:
+#             observation = env.reset()
+#     env.close()

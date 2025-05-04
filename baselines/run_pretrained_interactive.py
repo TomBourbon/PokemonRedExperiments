@@ -7,6 +7,8 @@ from stable_baselines3.common import env_checker
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common.utils import set_random_seed
 from stable_baselines3.common.callbacks import CheckpointCallback
+import pygame
+import sdl2
 
 def make_env(rank, env_conf, seed=0):
     """
@@ -18,6 +20,7 @@ def make_env(rank, env_conf, seed=0):
     """
     def _init():
         env = RedGymEnv(env_conf)
+        
         #env.seed(seed + rank)
         return env
     set_random_seed(seed)
@@ -47,6 +50,17 @@ if __name__ == '__main__':
     #keyboard.on_press_key("M", toggle_agent)
     obs, info = env.reset()
     while True:
+        events = sdl2.ext.get_events()
+        filtered_events = []
+        for event in events:
+            if event.type == sdl2.SDL_QUIT:
+                print("Ignoring SDL_QUIT")
+            else:
+                filtered_events.append(event)
+        
+        # Réinjecte les événements filtrés dans SDL
+        for event in filtered_events:
+            sdl2.SDL_PushEvent(event)
         action = 7 # pass action
         try:
             with open("agent_enabled.txt", "r") as f:
