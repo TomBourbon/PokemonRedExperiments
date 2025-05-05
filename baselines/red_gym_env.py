@@ -193,6 +193,8 @@ class RedGymEnv(Env):
     
     def step(self, action):
 
+
+
         self.run_action_on_emulator(action)
         self.append_agent_stats(action)
 

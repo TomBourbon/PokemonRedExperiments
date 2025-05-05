@@ -8,6 +8,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common.utils import set_random_seed
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stream_agent_wrapper import StreamWrapper
+from memory_addresses import *
 
 from red_gym_env_minimal import PokeRedEnv
 def make_env(rank, env_conf, seed=0):
@@ -45,11 +46,16 @@ if __name__ == '__main__':
                 'gb_path': '../PokemonRed.gb', 'debug': False, 'sim_frame_dist': 2_000.0, 
                 'use_screen_explore': True, 'extra_buttons': False
             }
-    
-    
+
     num_cpu = 8 #64 #46  # Also sets the number of episodes per training iteration
     env = SubprocVecEnv([make_env(i, env_config) for i in range(num_cpu)])
+    print("YOOOOOOOOOO")
     
+    for a in LEVELS_ADDRESSES:
+        results = env.env_method("read_m", a)
+    for i, res in enumerate(results):
+        print(f"[env {i}] {a} -> {res}")
+
     checkpoint_callback = CheckpointCallback(save_freq=ep_length, save_path=sess_path,
                                      name_prefix='poke')
     #env_checker.check_env(env)

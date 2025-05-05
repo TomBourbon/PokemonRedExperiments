@@ -9,6 +9,7 @@ from stable_baselines3.common.utils import set_random_seed
 from stable_baselines3.common.callbacks import CheckpointCallback
 import pygame
 import sdl2
+from memory_addresses import *
 
 def make_env(rank, env_conf, seed=0):
     """
@@ -58,6 +59,8 @@ if __name__ == '__main__':
             else:
                 filtered_events.append(event)
         
+        for a in LEVELS_ADDRESSES:
+            print("mes levels",env.read_m(a))
         # Réinjecte les événements filtrés dans SDL
         for event in filtered_events:
             sdl2.SDL_PushEvent(event)
