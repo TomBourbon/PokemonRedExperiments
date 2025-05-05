@@ -24,7 +24,7 @@ def make_env(rank, env_conf, seed=0):
             stream_metadata = { # All of this is part is optional
                 "user": "Tomkick", # choose your own username
                 "env_id": rank, # environment identifier
-                "color": "#447799", # choose your color :)
+                "color": "#0ffc03", # choose your color :)
                 "extra": "", # any extra text you put here will be displayed
             }
         )
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     
     print(env_config)
     
-    num_cpu = 4 # Also sets the number of episodes per training iteration
+    num_cpu = 64 # Also sets the number of episodes per training iteration
     env = SubprocVecEnv([make_env(i, env_config) for i in range(num_cpu)])
     
     checkpoint_callback = CheckpointCallback(save_freq=ep_length//2, save_path=sess_path,
