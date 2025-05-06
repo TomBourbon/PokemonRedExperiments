@@ -36,20 +36,20 @@ def make_env(rank, env_conf, seed=0):
 if __name__ == "__main__":
 
     use_wandb_logging = False
-    ep_length = 2048 * 80
+    ep_length = 2048 * 80 
     sess_id = "runs"
     sess_path = Path(sess_id)
 
     env_config = {
                 'headless': True, 'save_final_state': False, 'early_stop': False,
-                'action_freq': 24, 'init_state': '../init.state', 'max_steps': ep_length, 
+                'action_freq': 24, 'init_state': '../has_pokedex_nballs.state', 'max_steps': ep_length, 
                 'print_rewards': True, 'save_video': False, 'fast_video': True, 'session_path': sess_path,
                 'gb_path': '../PokemonRed.gb', 'debug': False, 'reward_scale': 0.5, 'explore_weight': 0.25
             }
     
     print(env_config)
     
-    num_cpu = 25 # Also sets the number of episodes per training iteration
+    num_cpu = 24# Also sets the number of episodes per training iteration
     env = SubprocVecEnv([make_env(i, env_config) for i in range(num_cpu)])
     
     checkpoint_callback = CheckpointCallback(save_freq=ep_length//2, save_path=sess_path,
